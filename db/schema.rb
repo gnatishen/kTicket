@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160925100746) do
+ActiveRecord::Schema.define(version: 20160926140702) do
+
+  create_table "departments", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "ancestry"
+    t.integer  "user_id"
+  end
+
+  add_index "departments", ["ancestry"], name: "index_departments_on_ancestry"
+  add_index "departments", ["user_id"], name: "index_departments_on_user_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -48,8 +59,10 @@ ActiveRecord::Schema.define(version: 20160925100746) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "department_id"
   end
 
+  add_index "users", ["department_id"], name: "index_users_on_department_id"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
